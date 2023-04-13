@@ -2,6 +2,7 @@
 
 # Add imports here
 from .bitstring import *
+from .ising_hamiltonian import *
 
 
 from ._version import __version__
