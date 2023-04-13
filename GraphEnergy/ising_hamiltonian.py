@@ -18,9 +18,20 @@ class IsingHamiltonian:
         self.mu = mu
 
     def energy(self, config):
-
+        """ Computes the energy of a given configuration
+        
+        Parameters
+        ----------
+        config: BitString
+            input configuration
+            
+        Returns
+        -------
+        energy: float
+            the energy of the given configuration
+        """
         if(len(config) != len(self.J)):
-            error("Invalid config size")
+            raise Exception("Invalid config size")
 
         sum = 0
         spin1 = 1
@@ -39,4 +50,9 @@ class IsingHamiltonian:
                 else:
                     spin2 = -1
                 sum += spin1 * spin2 * j[1]
+
+    def compute_average_values(self, config, temp):
+        # Z is the sum over all possible configurations
+        Z = 
+
 
