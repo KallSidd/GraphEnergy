@@ -1,4 +1,5 @@
 import numpy as np
+import bitstring as bs
 
 class IsingHamiltonian:
     
@@ -50,9 +51,33 @@ class IsingHamiltonian:
                 else:
                     spin2 = -1
                 sum += spin1 * spin2 * j[1]
+        return sum
 
     def compute_average_values(self, config, temp):
-        # Z is the sum over all possible configurations
-        Z = 
+        M = 0.0
+        E = 0.0
+        
+        bitstring = bs.BitString([0]*len(config))
 
+        def get_spin_diff(config):
+            spin_diff = 0
+            for i in range(len(config)):
+                if(str(config[i]) == '1'):
+                    spin_diff += 1
+                else:
+                    spin_diff -= 1
+            return spin_diff
+        
+        def config_probablity(config, len):
+            Z = 0.0
+            for i in range(0, 2**(len(config))):
+                Z += np.exp(-self.energy(bitstring) / temp)
+                config.set_int(i, len)
 
+            return (1 / Z) * np.exp(-self.energy(config) / temp)
+
+        for i in range(0, 2**len(config)):
+            M += get_spin_diff(config) * config_probablity(config, len(config))
+            E += self.energy(config) * config_probablity(config, len(config))
+
+        
