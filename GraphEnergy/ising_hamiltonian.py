@@ -1,5 +1,6 @@
 import numpy as np
 import bitstring as bs
+import random
 
 class IsingHamiltonian:
     
@@ -54,10 +55,34 @@ class IsingHamiltonian:
         return sum
 
     def compute_average_values(self, config, temp):
+        """ Compute Average values exactly
+        Parameters
+        ----------
+        conf   : :class:`BitString`
+            input configuration 
+        T      : int
+            Temperature
+        
+        Returns
+        -------
+        E  : float 
+            Energy
+        M  : float
+            Magnetization
+        HC : float
+            Heat Capacity
+        MS : float
+            Magnetic Susceptability
+        """
+        bitstring = bs.BitString([0]*len(config))
+        Z = 0.0
         M = 0.0
         E = 0.0
-        
-        bitstring = bs.BitString([0]*len(config))
+        HC = 0.0
+        MS = 0.0
+
+        EE = 0.0
+        MM = 0.0
 
         def get_spin_diff(config):
             spin_diff = 0
@@ -68,16 +93,35 @@ class IsingHamiltonian:
                     spin_diff -= 1
             return spin_diff
         
-        def config_probablity(config, len):
-            Z = 0.0
-            for i in range(0, 2**(len(config))):
-                Z += np.exp(-self.energy(bitstring) / temp)
-                config.set_int(i, len)
+        for i in range(2**len(config)):
+            config_energy = self.energy(bitstring)
+            Z += np.exp(-config_energy / temp)
+            E += config_energy * np.exp(-config_energy / temp)
+            EE += config_energy**2 * np.exp(-config_energy / temp)
+            M += get_spin_diff(bitstring) * np.exp(-config_energy / temp)
+            MM += get_spin_diff(bitstring)**2 * np.exp(-config_energy / temp)
+            bitstring.set_int(i)
 
-            return (1 / Z) * np.exp(-self.energy(config) / temp)
+        E /= Z
+        EE /= Z
+        M /= Z
+        MM /= Z
 
-        for i in range(0, 2**len(config)):
-            M += get_spin_diff(config) * config_probablity(config, len(config))
-            E += self.energy(config) * config_probablity(config, len(config))
+        HC = (EE - E**2) / (temp ** 2)
+        MS = (MM - M**2) / temp
 
-        
+        return E, M, HC, MS
+    
+    def metropolis_sweep(self, config, temp=1.0):
+        for i in config:
+            curr_energy = self.energy(config)
+            config.flip(i)
+            new_energy = self.energy(config)
+
+            if(new_energy > curr_energy):
+                keep_probability = np.exp(-(new_energy - curr_energy) / temp)
+
+                if(random.random() >= keep_probability):
+                    config.flip(i)
+
+        return config
