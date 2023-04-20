@@ -4,4 +4,4 @@ API Documentation
 .. autosummary::
    :toctree: autosummary
 
-   GraphEnergy.canvas
+   MonteCarlo.canvas

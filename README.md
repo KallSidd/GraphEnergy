@@ -1,11 +1,11 @@
-GraphEnergy
+MonteCarlo
 ==============================
 [//]: # (Badges)
-[![GitHub Actions Build Status](https://github.com/REPLACE_WITH_OWNER_ACCOUNT/GraphEnergy/workflows/CI/badge.svg)](https://github.com/REPLACE_WITH_OWNER_ACCOUNT/GraphEnergy/actions?query=workflow%3ACI)
-[![codecov](https://codecov.io/gh/REPLACE_WITH_OWNER_ACCOUNT/GraphEnergy/branch/main/graph/badge.svg)](https://codecov.io/gh/REPLACE_WITH_OWNER_ACCOUNT/GraphEnergy/branch/main)
+[![GitHub Actions Build Status](https://github.com/KallSidd/MonteCarlo/workflows/CI/badge.svg)](https://github.com/KallSidd/MonteCarlo/actions?query=workflow%3ACI)
+[![codecov](https://codecov.io/gh/KallSidd/MonteCarlo/branch/main/graph/badge.svg)](https://codecov.io/gh/KallSidd/MonteCarlo/branch/main)
 
 
-A Python package for implementing graph energy functions such as montecarlo
+A Python package for implementing montecarlo and metropolis sweep
 
 ### Copyright
 

@@ -1,4 +1,4 @@
 Getting Started
 ===============
 
-This page details how to get started with GraphEnergy. 
+This page details how to get started with MonteCarlo. 
