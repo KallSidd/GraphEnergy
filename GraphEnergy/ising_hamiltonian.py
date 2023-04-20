@@ -54,6 +54,15 @@ class IsingHamiltonian:
                 sum += spin1 * spin2 * j[1]
         return sum
 
+    def get_spin_diff(self, config):
+        spin_diff = 0
+        for i in range(len(config)):
+            if(str(config[i]) == '1'):
+                spin_diff += 1
+            else:
+                spin_diff -= 1
+        return spin_diff
+
     def compute_average_values(self, config, temp):
         """ Compute Average values exactly
         Parameters
@@ -83,23 +92,14 @@ class IsingHamiltonian:
 
         EE = 0.0
         MM = 0.0
-
-        def get_spin_diff(config):
-            spin_diff = 0
-            for i in range(len(config)):
-                if(str(config[i]) == '1'):
-                    spin_diff += 1
-                else:
-                    spin_diff -= 1
-            return spin_diff
         
         for i in range(2**len(config)):
             config_energy = self.energy(bitstring)
             Z += np.exp(-config_energy / temp)
             E += config_energy * np.exp(-config_energy / temp)
             EE += config_energy**2 * np.exp(-config_energy / temp)
-            M += get_spin_diff(bitstring) * np.exp(-config_energy / temp)
-            MM += get_spin_diff(bitstring)**2 * np.exp(-config_energy / temp)
+            M += self.get_spin_diff(bitstring) * np.exp(-config_energy / temp)
+            MM += self.get_spin_diff(bitstring)**2 * np.exp(-config_energy / temp)
             bitstring.set_int(i)
 
         E /= Z
