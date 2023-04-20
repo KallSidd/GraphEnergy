@@ -3,6 +3,7 @@
 # Add imports here
 from .bitstring import *
 from .ising_hamiltonian import *
+from .metropolis import *
 
 
 from ._version import __version__
