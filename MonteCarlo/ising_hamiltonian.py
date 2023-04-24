@@ -1,5 +1,5 @@
 import numpy as np
-import bitstring as bs
+import MonteCarlo.bitstring as bs
 import random
 
 class IsingHamiltonian:

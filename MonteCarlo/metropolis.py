@@ -1,10 +1,10 @@
-import ising_hamiltonian
+import MonteCarlo.ising_hamiltonian as ising_ham
 import numpy as np
 
 def get_next(list, index, value):
     return (list[index - 1] * index + value) / (index + 1)
 
-def metropolis_montecarlo(self, ham: ising_hamiltonian.IsingHamiltonian, config, temp=1, nsweep=1000, nburn=100):
+def metropolis_montecarlo(self, ham: ising_ham.IsingHamiltonian, config, temp=1, nsweep=1000, nburn=100):
     for i in range(nburn):
         ham.metropolis_sweep(config, temp)
     

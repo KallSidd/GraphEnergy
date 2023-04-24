@@ -6,4 +6,4 @@ from .ising_hamiltonian import *
 from .metropolis import *
 
 
-from ._version import __version__
+# from ._version import __version__
