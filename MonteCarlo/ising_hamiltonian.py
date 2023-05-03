@@ -4,7 +4,7 @@ import random
 
 class IsingHamiltonian:
     
-    def __init__(self, J=[[()]], mu=np.zeros(1)):
+    def __init__(self, J=[[()]], mu=list(np.zeros(1))):
         """ Constructor 
     
         Parameters
@@ -32,13 +32,13 @@ class IsingHamiltonian:
         energy: float
             the energy of the given configuration
         """
-        if(len(config) != len(self.J)):
+        if(bs.BitString.__len__(config) != len(self.J)):
             raise Exception("Invalid config size")
-
+        
         sum = 0
         spin1 = 1
         spin2 = 1
-        for i in self.J:
+        for i in range(len(config)):
             if(str(config)[i] == '1'):
                 spin1 = 1
             else:
@@ -47,17 +47,18 @@ class IsingHamiltonian:
             sum += self.mu[i] * spin1
 
             for j in self.J[i]:
-                if(str(config)[j[0]] == '1'):
-                    spin2 = 1
-                else:
-                    spin2 = -1
-                sum += spin1 * spin2 * j[1]
+                if(j[0] < i):
+                    if(str(config)[j[0]] == '1'):
+                        spin2 = 1
+                    else:
+                        spin2 = -1
+                    sum += spin1 * spin2 * j[1]
         return sum
 
     def get_spin_diff(self, config):
         spin_diff = 0
         for i in range(len(config)):
-            if(str(config[i]) == '1'):
+            if(str(config)[i] == '1'):
                 spin_diff += 1
             else:
                 spin_diff -= 1
@@ -94,13 +95,16 @@ class IsingHamiltonian:
         MM = 0.0
         
         for i in range(2**len(config)):
+            bitstring.set_int(i, len(config))
+            
+            # config changes here for some reason
             config_energy = self.energy(bitstring)
-            Z += np.exp(-config_energy / temp)
+            Z_constant = np.exp(-config_energy / temp)
             E += config_energy * np.exp(-config_energy / temp)
             EE += config_energy**2 * np.exp(-config_energy / temp)
             M += self.get_spin_diff(bitstring) * np.exp(-config_energy / temp)
             MM += self.get_spin_diff(bitstring)**2 * np.exp(-config_energy / temp)
-            bitstring.set_int(i)
+            Z += Z_constant
 
         E /= Z
         EE /= Z
@@ -113,7 +117,7 @@ class IsingHamiltonian:
         return E, M, HC, MS
     
     def metropolis_sweep(self, config, temp=1.0):
-        for i in config:
+        for i in range(len(config)):
             curr_energy = self.energy(config)
             config.flip(i)
             new_energy = self.energy(config)

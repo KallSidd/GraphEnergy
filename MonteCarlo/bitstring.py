@@ -35,7 +35,7 @@ class BitString:
     
     def set_string(self, bitString):
         newString = ""
-        for i in bitString:
+        for i in range(len(bitString)):
             newString += str(bitString[i])
         self.string = newString
         return self.string
