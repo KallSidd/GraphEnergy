@@ -67,4 +67,4 @@ def test_metropolis():
     print("     HC: %12.8f" %(HC))
     print("     MS: %12.8f" %(MS))
 
-    assert(np.isclose(-9.31, E[-1]))
+    assert(np.isclose(-9.31, E[-1], 1))

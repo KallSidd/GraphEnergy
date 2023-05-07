@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 class BitString:
@@ -77,4 +78,17 @@ class BitString:
         if(str(self) != str(other)):
             return False
         return True
-            
+    
+    def initialize(self, M=0, verbose=0):
+        """
+        Initialize spin configuration with specified magnetization
+        
+        Parameters
+        ----------
+        M   : Int, default: 0
+            Total number of spin up sites 
+        """
+        self.config = np.zeros(len(self.string), dtype=int) 
+        randomlist = random.sample(range(0, len(self.string)), M)
+        for i in randomlist:
+            self.flip(i)
